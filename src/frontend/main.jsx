@@ -125,6 +125,41 @@ export default function Main() {
     setShowDocModal(true);
   };
 
+    // 醫療用品
+  const [supplies, setSupplies] = useState([
+      { name: 'Insulin (胰島素)', quantity: 20, unit: '支' },
+      { name: 'Antibiotics (抗生素)', quantity: 15, unit: '盒' },
+      { name: 'Glucagon (升糖素)', quantity: 5, unit: '支' },
+      { name: 'Glucose Meter (血糖機)', quantity: 3, unit: '台' },
+      { name: 'BP Monitor (血壓機)', quantity: 4, unit: '台' },
+      { name: 'Thermometer (耳溫槍)', quantity: 6, unit: '支' }
+  ]);
+  const [showSupplyModal, setShowSupplyModal] = useState(false);
+  const [supplyForm, setSupplyForm] = useState({ itemName: '', requestQty: 1 });
+
+  const handleSupplyRequest = () => {
+        const { itemName, requestQty } = supplyForm;
+        if (!itemName || requestQty <= 0) return alert("Please select an item and valid quantity.");
+
+        const targetItem = supplies.find(item => item.name === itemName);
+        if (targetItem && parseInt(requestQty) > targetItem.quantity) {
+            return alert(`Error: Request quantity exceeds available stock.`);
+        }
+        const updatedSupplies = supplies.map(item => {
+            if (item.name === itemName) return { ...item, quantity: item.quantity - parseInt(requestQty) };
+            return item;
+        }).filter(item => item.quantity > 0);
+
+        setSupplies(updatedSupplies);
+        setShowSupplyModal(false);
+        setSupplyForm({ itemName: updatedSupplies[0]?.name || '', requestQty: 1 });
+    };
+
+    const openSupplyModal = () => {
+        if (supplies.length > 0) setSupplyForm({ itemName: supplies[0].name, requestQty: 1 });
+        setShowSupplyModal(true);
+    };
+
   const handleDocSubmit = async () => {
     if (!docForm.name || !docForm.id) return alert("請輸入完整資料");
     const url = editingDocId
@@ -299,10 +334,54 @@ export default function Main() {
                     )}
                 </div>
 
-                {/* 2. Blank Area 1 (Left Bottom) */}
-                <div className="blank-container" style={{flex: 1}}>
-                    <p style={{color: '#ccc', textAlign: 'center'}}>Blank Area 1</p>
-                </div>
+                {/* Medical Supplies */}
+                  {showSupplyModal && (
+                      <div style={{position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                          <div style={{backgroundColor: 'white', padding: '20px', borderRadius: '10px', width: '300px', boxShadow: '0 4px 8px rgba(0,0,0,0.2)'}}>
+                              <h3 style={{marginTop: 0, color: '#3D0C02'}}>Request Supplies</h3>
+                              <div style={{display:'flex', flexDirection:'column', gap:'15px'}}>
+                                  <select value={supplyForm.itemName} onChange={(e) => setSupplyForm({...supplyForm, itemName: e.target.value})} style={{width:'100%', padding:'5px'}}>
+                                      {supplies.map((item, i) => (
+                                          <option key={i} value={item.name}>{item.name} (剩餘: {item.quantity})</option>
+                                      ))}
+                                  </select>
+                                  <input type="number" min="1" value={supplyForm.requestQty} onChange={(e) => setSupplyForm({...supplyForm, requestQty: e.target.value})} style={{width:'100%', padding:'5px'}} />
+                                  <div style={{display:'flex', justifyContent:'flex-end', gap:'10px'}}>
+                                      <button onClick={() => setShowSupplyModal(false)}>Cancel</button>
+                                      <button onClick={handleSupplyRequest} style={{backgroundColor:'#2E7D32', color:'white', border:'none', borderRadius:'5px', padding:'5px 15px'}}>Confirm</button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  )}
+                  <div className="flex-container" style={{}}>
+                    <div id='medicalSupplies' style={{
+                        flex: 1, 
+                        padding: '15px', 
+                        backgroundColor: '#FDFFF5', 
+                        borderRadius: '20px', 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        justifyContent: 'space-between',
+                        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                        borderLeft: '5px solid #3AA8C1'
+                    }}>
+                        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', borderBottom: '2px solid #eee', paddingBottom:'5px' }}>
+                            <p style={{fontWeight:'bold', fontSize:'1.1em', margin:0}}>Medical Supplies</p>
+                        </div>
+                        <div style={{ flex: 1, overflowY: 'auto', marginTop: '10px', paddingRight: '5px' }}>
+                            {supplies.map((item, idx) => (
+                                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '5px 0', borderBottom: '1px dashed #ccc', fontSize: '0.95em' }}>
+                                    <span>{item.name}</span>
+                                    <span style={{ fontWeight: 'bold', color: '#e65100' }}>{item.quantity} {item.unit}</span>
+                                </div>
+                            ))}
+                        </div>
+                        <div style={{ marginTop: '10px', display:'flex', justifyContent:'flex-end' }}>
+                            <button onClick={openSupplyModal} style={{cursor:'pointer', backgroundColor:'#ff9800', color:'white', border:'none', borderRadius:'5px', padding:'6px 12px', fontSize:'0.9em', fontWeight:'bold'}}>+ Request</button>
+                        </div>
+                    </div>
+                  </div>
               </div>
 
               {/* Column 2 (Right Top & Bottom) */}
