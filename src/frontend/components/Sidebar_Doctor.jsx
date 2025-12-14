@@ -9,7 +9,7 @@ import pinIcon from "../asset/image/icon/pin.png";
 // import scheduleIcon from "../asset/image/icon/schedule.png";
 import equipmentIcon from "../asset/image/icon/equipment.png";
 
-export default function SidebarDoctor({ brand = "MediCare" }) {
+export default function SidebarDoctor({ brand = "GoooodEar" }) {
   return (
     <div id="leftSideBar">
       <p style={{ fontWeight: "bold", fontSize: 24, marginBottom: 20 }}>
@@ -18,14 +18,13 @@ export default function SidebarDoctor({ brand = "MediCare" }) {
 
       {/* 你的首頁在 App.js 是 "/" */}
       <SideNavItem to="/" icon={dashboardIcon} label="Dashboard" />
+      <SideNavItem to="/appointments/new" icon={teamIcon} label="Make appointments" />
       
       {/* 若你尚未建立 TeamInfo 頁面，這個連結點了會沒反應，建議之後將組員的 TeamInfo.jsx 也搬過來 */}
       <SideNavItem to="/team" icon={teamIcon} label="TeamInfo" />
       
       {/* 這是你的 DoctorConfirmModal 或 Scheduler */}
       {/*<SideNavItem to="/scheduler" icon={scheduleIcon} label="Scheduler" />*/}
-      
-      <SideNavItem to="/equipment" icon={equipmentIcon} label="Equipment" />
 
       <SideExternalItem
         href="https://www.facebook.com/p/%E9%A1%A7%E8%80%B3%E9%BC%BB%E5%96%89%E7%A7%91%E8%A8%BA%E6%89%80-100083083313210/?locale=zh_TW"

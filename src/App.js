@@ -7,6 +7,7 @@ import DoctorConfirmAppointments from "./frontend/pages/DoctorConfirmAppointment
 import { AppointmentProvider } from "./frontend/state/AppointmentContext";
 import DoctorSchedulerPage from "./frontend/pages/DoctorSchedulerPage";
 import TeamInfo from "./frontend/pages/TeamInfo";
+import QueryAppointment from "./frontend/pages/QueryAppointment";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/patient" element={<PatientMain />} />
           <Route path="/patient/team" element={<TeamInfo variant="patient" />} />
           <Route path="/patient/confirm" element={<AppointmentConfirmation />} />
+          <Route path="/patient/query" element={<QueryAppointment />} />
 
           {/* 醫生確認預約 */}
           <Route path="/confirm" element={<DoctorConfirmAppointments />} />

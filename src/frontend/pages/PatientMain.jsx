@@ -9,7 +9,7 @@ export default function PatientMain() {
     <div className="main">
       <div className="flex-container" id="mainDisplay">
         {/* 左側 Sidebar */}
-        <SidebarPatient brand="MediCare" dashboardTo="/patient" />
+        <SidebarPatient dashboardTo="/patient" />
 
         {/* 右側：中+右合併，並上下切 */}
         <div
@@ -29,27 +29,13 @@ export default function PatientMain() {
               borderRadius: 12,
               border: "1px solid #ddd",
               padding: 16,
-              overflow: "auto",
+              overflow: "visible",
             }}
           >
             <MakeAppointment />
           </section>
 
-          <section
-            style={{
-              flex: 1,
-              background: "white",
-              borderRadius: 12,
-              border: "1px solid #ddd",
-              padding: 16,
-              overflow: "auto",
-            }}
-          >
-            <QueryAppointment />
-          </section>
-          <section>
-            <AppointmentList />
-          </section>
+
         </div>
       </div>
     </div>

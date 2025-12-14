@@ -29,28 +29,16 @@ const MOCK_APPOINTMENTS = [
   // },
 ];
 
-export default function AppointmentList() {
-  const [appointments, setAppointments] = useState(MOCK_APPOINTMENTS);
-  const [message, setMessage] = useState("");
-
-  function handleDelete(apptId) {
-    const ok = window.confirm("確定要刪除這筆預約嗎？");
-    if (!ok) return;
-
-    setAppointments((prev) => prev.filter((a) => a.id !== apptId));
-    setMessage(`預約 ${apptId} 已刪除`);
-  }
+export default function AppointmentList({viewResults}) {
 
   return (
     <div>
       <h2>我的預約</h2>
 
-      {message && <div style={{ marginBottom: 12, color: "#2E7D32" }}>{message}</div>}
-
-      {appointments.length === 0 ? (
+      {viewResults.length === 0 ? (
         <p style={{ color: "#777" }}>目前沒有任何預約。</p>
       ) : (
-        appointments.map((a) => (
+        viewResults.map((a) => (
           <div
             key={a.id}
             style={{
@@ -73,32 +61,16 @@ export default function AppointmentList() {
                 {a.date || "—"} · {slotLabel(a.timeSlot)}
               </div>
 
-              {a.symptoms ? (
-                <div style={{ fontSize: 13, color: "#444", marginTop: 6, overflowWrap: "anywhere" }}>
-                  <b>Symptoms:</b> {a.symptoms}
-                </div>
-              ) : null}
+           
+              <div style={{ fontSize: 13, color: "#444", marginTop: 6, overflowWrap: "anywhere" }}>
+                <b>Location:</b> {a.location}
+              </div>
+      
 
               <div style={{ fontSize: 12, color: "#777", marginTop: 6 }}>
                 Status: {a.status}
               </div>
             </div>
-
-            <button
-              onClick={() => handleDelete(a.id)}
-              style={{
-                background: "#C62828",
-                color: "white",
-                border: "none",
-                borderRadius: 10,
-                padding: "8px 12px",
-                cursor: "pointer",
-                fontWeight: 700,
-                flexShrink: 0,
-              }}
-            >
-              刪除
-            </button>
           </div>
         ))
       )}

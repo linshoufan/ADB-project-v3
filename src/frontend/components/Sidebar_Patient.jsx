@@ -5,15 +5,17 @@ import dashboardIcon from "../asset/image/icon/dashboard.png";
 import teamIcon from "../asset/image/icon/team.png";
 import webIcon from "../asset/image/icon/web.png";
 import pinIcon from "../asset/image/icon/pin.png";
+import queryIcon from "../asset/image/icon/query.png";
 
-export default function Sidebar({ brand = 'MediCare', dashboardTo = "/patient" }) {
+export default function Sidebar({ brand = 'GoooodEar', dashboardTo = "/patient" }) {
   return (
     <div id="leftSideBar">
       <p style={{ fontWeight: "bold", fontSize: 24, marginBottom: 20 }}>{brand}</p>
 
-      <SideNavItem to={dashboardTo} icon={dashboardIcon} label="Dashboard" />
+      <SideNavItem to="/patient" icon={dashboardIcon} label="Make Appointment" />
+      <SideNavItem to="/patient/query" icon={queryIcon} label="Query Appointment" />
       <SideNavItem to="/patient/team" icon={teamIcon} label="TeamInfo" />
-
+      
       <SideExternalItem
         href="https://www.facebook.com/p/%E9%A1%A7%E8%80%B3%E9%BC%BB%E5%96%89%E7%A7%91%E8%A8%BA%E6%89%80-100083083313210/?locale=zh_TW"
         icon={webIcon}

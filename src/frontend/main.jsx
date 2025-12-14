@@ -298,7 +298,7 @@ export default function Main() {
       )}
 
       <div className="flex-container" id="mainDisplay">
-        <SidebarDoctor brand="MediCare" />
+        <SidebarDoctor  />
 
         {/* Mid Display */}
         <div className="flex-container-vertical" id="midDisplay">

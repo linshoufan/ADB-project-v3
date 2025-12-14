@@ -161,8 +161,8 @@ export default function QueryAppointment() {
   }, [results]);
 
   return (
-    <div>
-      <div style={{ display: "flex", alignItems: "end", gap: 12, flexWrap: "wrap" }}>
+    <div style={{padding:16 }}>
+      <div style={{ display: "flex", alignItems: "end", gap: 12, flexWrap: "wrap"}}>
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           <label style={{ fontSize: 14, fontWeight: 700 }}>預約查詢（請輸入身分證字號）</label>
           <input
@@ -221,9 +221,9 @@ export default function QueryAppointment() {
 
       {error && <div style={{ marginTop: 12, color: "#b71c1c", fontWeight: 700 }}>{error}</div>}
 
-      <div style={{ marginTop: 14 }}>
+      <div style={{ marginTop: 25 }}>
         {viewResults.length > 0 && (
-          <div style={{ fontSize: 14, color: "#555", marginBottom: 8 }}>
+          <div style={{ fontSize: 18, color: "#555", marginBottom: 8 }}>
             Found <b>{viewResults.length}</b> appointment(s).
           </div>
         )}
@@ -251,7 +251,7 @@ export default function QueryAppointment() {
               </div>
             </div>
 
-            <div style={{ marginTop: 8, fontSize: 14, lineHeight: 1.6 }}>
+            <div style={{ marginTop: 20, fontSize: 14, lineHeight: 1.6 }}>
               <div><b>Appointment ID:</b> {appt.id}</div>
               <div><b>Patient:</b> {appt.patientName} ({appt.patientId})</div>
               <div><b>Subject:</b> {appt.subject}</div>
