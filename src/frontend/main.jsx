@@ -67,6 +67,25 @@ export default function Main() {
     return allPending.filter(appt => appt.subject === selectedDoctor.subject);
   }, [allPending, selectedDoctor]);
 
+  const [pendingCnt, setPendingCnt] = useState(pending.length);
+
+  useEffect(() => {
+    const eventSource = new EventSource("http://localhost:5001/events");
+
+    eventSource.addEventListener("new-appointment", () => {
+      setPendingCnt((prev) => prev + 1);
+    });
+
+    eventSource.onerror = (err) => {
+      console.error("SSE error:", err);
+      eventSource.close();
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
+
   // API Calls
   const fetchDoctors = async () => {
     try {
@@ -389,7 +408,7 @@ export default function Main() {
                   {/* 3. Inbox Widget (Moved to Right Top) */}
                   <div style={{ flex: 1 }}>
                      <DoctorInboxWidget
-                        pendingCount={pending.length}
+                        pendingCount={pendingCnt}
                         scheduledCount={confirmed.length}
                         onClickPending={() => {
                             if (!selectedDoctor) {

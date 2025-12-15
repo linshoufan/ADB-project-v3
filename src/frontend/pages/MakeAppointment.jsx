@@ -30,7 +30,7 @@ function combineDateSlot(dateStr, slot) {
   return `${dateStr} ${label}`;
 }
 
-export default function MakeAppointment({ onSubmitAppointment }) {
+export default function MakeAppointment({ onSubmitAppointment, successRedirect = "/patient/confirm" }) {
   const navigate = useNavigate();
   const { addPending } = useAppointments();
 
@@ -177,7 +177,7 @@ export default function MakeAppointment({ onSubmitAppointment }) {
         
         // 稍作延遲後跳轉或重置
         setTimeout(() => {
-             navigate("/patient/confirm", { state: { ...contextPayload, _localApptId: apptId } });
+             navigate(successRedirect, { state: { ...contextPayload, _localApptId: apptId } });
         }, 1000);
 
     } catch (error) {

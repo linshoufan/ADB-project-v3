@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import SidebarPatient from "../components/Sidebar_Patient";
 
 const API_BASE = "http://localhost:5001";
 
@@ -47,6 +48,7 @@ function slotLabel(slot) {
 }
 
 export default function QueryAppointment() {
+
   const [pid, setPid] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -161,6 +163,22 @@ export default function QueryAppointment() {
   }, [results]);
 
   return (
+        <div className="main">
+          <div className="flex-container" id="mainDisplay">
+            {/* 左側 Sidebar */}
+            <SidebarPatient dashboardTo="/patient" />
+    
+            {/* 右側：中+右合併，並上下切 */}
+            <div
+              style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                gap: 16,
+                padding: 16,
+                overflow: "hidden",
+              }}
+            >
     <div style={{padding:16 }}>
       <div style={{ display: "flex", alignItems: "end", gap: 12, flexWrap: "wrap"}}>
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -260,6 +278,11 @@ export default function QueryAppointment() {
             </div>
           </div>
         ))}
+      </div>
+    </div>
+
+
+    </div>
       </div>
     </div>
   );

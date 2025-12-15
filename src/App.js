@@ -8,6 +8,7 @@ import { AppointmentProvider } from "./frontend/state/AppointmentContext";
 import DoctorSchedulerPage from "./frontend/pages/DoctorSchedulerPage";
 import TeamInfo from "./frontend/pages/TeamInfo";
 import QueryAppointment from "./frontend/pages/QueryAppointment";
+import DoctorMakeAppointment from "./frontend/pages/DoctorMakeAppointment";
 
 export default function App() {
   return (
@@ -16,10 +17,8 @@ export default function App() {
         <Routes>
           {/* 醫生端 */}
           <Route path="/" element={<Main />} />
-          <Route
-            path="appointments/new"
-            element={<MakeAppointment />}
-          />
+          <Route path="appointments/new" element={<MakeAppointment />} />
+          <Route path="/appointments/doctor" element={<DoctorMakeAppointment />} />
 
           {/* 獨立的排程頁面 */}
           <Route path="/scheduler" element={<DoctorSchedulerPage />} />

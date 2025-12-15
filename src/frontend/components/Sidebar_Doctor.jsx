@@ -6,6 +6,7 @@ import dashboardIcon from "../asset/image/icon/dashboard.png";
 import teamIcon from "../asset/image/icon/team.png";
 import webIcon from "../asset/image/icon/web.png";
 import pinIcon from "../asset/image/icon/pin.png";
+import patient_icon from "../asset/image/icon/patient_icon.png";
 // import scheduleIcon from "../asset/image/icon/schedule.png";
 import equipmentIcon from "../asset/image/icon/equipment.png";
 
@@ -18,7 +19,7 @@ export default function SidebarDoctor({ brand = "GoooodEar" }) {
 
       {/* 你的首頁在 App.js 是 "/" */}
       <SideNavItem to="/" icon={dashboardIcon} label="Dashboard" />
-      <SideNavItem to="/appointments/new" icon={teamIcon} label="Make appointments" />
+      <SideNavItem to="/appointments/doctor" icon={teamIcon} label="Make appointments" />
       
       {/* 若你尚未建立 TeamInfo 頁面，這個連結點了會沒反應，建議之後將組員的 TeamInfo.jsx 也搬過來 */}
       <SideNavItem to="/team" icon={teamIcon} label="TeamInfo" />
@@ -37,6 +38,7 @@ export default function SidebarDoctor({ brand = "GoooodEar" }) {
         icon={pinIcon}
         label="Google Map"
       />
+      <SideNavItem to="/patient" icon={patient_icon} label="Patient Portal" />
     </div>
   );
 }

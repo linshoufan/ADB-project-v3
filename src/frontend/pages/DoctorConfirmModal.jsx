@@ -114,9 +114,9 @@ export default function DoctorConfirmModal({
     fetchPending();
   }, [open, doctorSubject]);
 
-  // 2. 當日期改變時，先清空 Schedule，再讀取新的 (解決圖一日期不符問題)
+  // 2. 當日期改變時，先清空 Schedule，再讀取新的
   useEffect(() => {
-    if (!open || !doctorId) return;
+    if (!open) return;
     
     // 清空舊資料，避免視覺殘留
     setScheduleAM([]);
@@ -147,8 +147,11 @@ export default function DoctorConfirmModal({
 
       data.forEach(a => {
         const vm = toViewModelFromAppt(a);
-        // 雙重檢查：確保日期真的符合 (以防後端回傳多餘資料)
+        // 確保日期符合
         if (vm.date !== selectedDate) return;
+
+        // 確保科別符合
+        if (doctorSubject && vm.subject !== doctorSubject) return;
 
         if (isMorning(vm.timeSlot)) am.push(vm);
         else pm.push(vm);
@@ -167,7 +170,7 @@ export default function DoctorConfirmModal({
     } catch(e) { console.error(e); }
   }
 
-  // 🔥 核心功能: 呼叫後端重新計算時間 (Auto-Update Time)
+  // 呼叫後端重新計算時間 (Auto-Update Time)
   async function requestRecalculation(items, slotType) {
      if (items.length === 0) return items;
 
@@ -235,7 +238,7 @@ export default function DoctorConfirmModal({
         draggingItem = scheduleAM.find(x => x.id === id) || schedulePM.find(x => x.id === id);
     }
 
-    // ✅ 新增檢查：通用 AM/PM 欄位限制 (無論是 REQUEST 還是 APPOINTMENT)
+    // 通用 AM/PM 欄位限制 (無論是 REQUEST 還是 APPOINTMENT)
     if (draggingItem) {
         const isItemAM = isMorning(draggingItem.timeSlot);
         const isTargetAM = (to === "AM");
@@ -322,7 +325,7 @@ export default function DoctorConfirmModal({
     onClose();
   }
   
-  // ✅ 4. Auto Optimize 功能
+  // 4. Auto Optimize 功能
   async function handleOptimize() {
     if (!selectedDate || !doctorId) {
         alert("Missing Date or Doctor ID");
@@ -421,7 +424,7 @@ export default function DoctorConfirmModal({
               style={{padding: 5, borderRadius: 5, border: '1px solid #ccc'}}
             />
 
-            {/* ✅ 補回 Auto Optimize 按鈕 */}
+            {/* Auto Optimize 按鈕 */}
             <button 
                 onClick={handleOptimize}
                 style={{ 
@@ -508,8 +511,8 @@ function ScheduleColumn({ title, slot, items, onDropToList, onDropToRow }) {
           flexDirection: "column", 
           gap: 8, 
           flex: 1, 
-          overflowY: "auto", // ✅ 加入垂直滾動
-          minHeight: 0       // ✅ Flexbox 滾動修復技巧
+          overflowY: "auto", // 垂直滾動
+          minHeight: 0
       }}>
         {items.map((a, idx) => (
            <div key={a.id} onDragOver={allowDrop} onDrop={(e) => onDropToRow(e, slot, idx)}>

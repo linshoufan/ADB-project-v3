@@ -446,6 +446,37 @@ app.get('/api/route/:doctorId', async (req, res) => {
     }
 });
 
+let clients = [];
+
+app.get("/events", (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+
+  res.flushHeaders();
+
+  const clientId = Date.now();
+  clients.push({ id: clientId, res });
+
+  // Keep connection alive
+  const keepAlive = setInterval(() => {
+    res.write(": keep-alive\n\n");
+  }, 30000);
+
+  req.on("close", () => {
+    clearInterval(keepAlive);
+    clients = clients.filter((c) => c.id !== clientId);
+  });
+});
+
+
+function sendNewAppointmentEvent() {
+  clients.forEach((client) => {
+    console.log("sending notification");
+    client.res.write(`event: new-appointment\ndata: {}\n\n`);
+  });
+}
+
 // 建立預約請求
 app.post("/api/appointment-requests", async (req, res) => {
   const session = driver.session();
@@ -514,6 +545,7 @@ app.post("/api/appointment-requests", async (req, res) => {
       lat: lat, lng: lng
     });
 
+    sendNewAppointmentEvent()
     res.json({ message: "Success", id: requestId });
   } catch (error) {
     console.error("建立預約請求失敗:", error);
